@@ -1,0 +1,22 @@
+*, *::before, *::after { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; }
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  -webkit-font-smoothing: antialiased;
+  line-height: 1.4;
+}
+/* subtle CRT scanline overlay, fixed, non-interactive */
+body::after {
+  content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 9999;
+  background: repeating-linear-gradient(
+    to bottom, var(--scanline) 0 1px, transparent 1px 3px);
+  mix-blend-mode: overlay;
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}
+.signal { color: var(--signal); text-shadow: 0 0 8px var(--signal-glow); }
+.dim { color: var(--ink-dim); }

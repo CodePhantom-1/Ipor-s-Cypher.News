@@ -1,0 +1,29 @@
+:root {
+  /* base surfaces — near-black, faint cool tint */
+  --bg: #07090a;
+  --bg-panel: #0d1112;
+  --bg-elevated: #12181a;
+  --line: #1b2426;
+  --ink: #c7d2cb;
+  --ink-dim: #6c7b73;
+
+  /* signal (overridden per palette) — default green phosphor */
+  --signal: #41ffa0;
+  --signal-dim: #1f8f5c;
+  --signal-glow: rgba(65, 255, 160, 0.35);
+
+  --font-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", monospace;
+  --font-display: "Martian Mono", var(--font-mono);
+
+  --radius: 2px;
+  --space-1: 4px; --space-2: 8px; --space-3: 12px;
+  --space-4: 16px; --space-5: 24px; --space-6: 40px;
+
+  --scanline: rgba(255, 255, 255, 0.025);
+}
+:root[data-palette="amber"] {
+  --signal: #ffb454; --signal-dim: #a9701f; --signal-glow: rgba(255, 180, 84, 0.35);
+}
+:root[data-palette="cyan"] {
+  --signal: #34dfe6; --signal-dim: #1c8a8f; --signal-glow: rgba(52, 223, 230, 0.35);
+}
