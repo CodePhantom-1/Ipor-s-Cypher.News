@@ -2,7 +2,7 @@ import type { Cipher, CalcOptions, CalcResult, PerChar } from './types';
 
 export const DEFAULT_OPTS: CalcOptions = {
   allowPhraseComments: false,
-  numCalcMethod: 0,
+  numCalcMethod: 2,
   multCharPos: false,
   multCharPosReverse: false,
 };

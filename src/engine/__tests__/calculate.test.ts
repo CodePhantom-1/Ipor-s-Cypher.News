@@ -21,8 +21,12 @@ test('case-insensitive by default', () => {
 test('diacritics folded when diacriticsAsRegular', () => {
   expect(calculate('café', ordinal()).total).toBe(calculate('cafe', ordinal()).total);
 });
-test('digits ignored by default (numCalcMethod 0)', () => {
-  expect(calculate('a1b', ordinal()).total).toBe(3);
+test('digits explicitly off (numCalcMethod 0)', () => {
+  expect(calculate('a1b', ordinal(), { numCalcMethod: 0 }).total).toBe(3);
+});
+test('digits Reduced by default (legacy calc.js:44 default)', () => {
+  // a=1, digit '1' reduced=1, b=2
+  expect(calculate('a1b', ordinal()).total).toBe(4);
 });
 test('digits full: consecutive digits as one number', () => {
   expect(calculate('12', ordinal(), { numCalcMethod: 1 }).total).toBe(12);
