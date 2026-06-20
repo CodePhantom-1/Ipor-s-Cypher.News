@@ -2,8 +2,6 @@
 
 A fast, mobile-first gematria calculator. This is a ground-up **Svelte + Vite + TypeScript** rewrite of the Cyphers / Gematro / Hyperdope tool, with a "Phosphor Decoder" terminal interface.
 
-**Live:** https://gematro-hyperdope.pages.dev
-
 > Status: active overhaul. **Done** — gematria engine (91 ciphers) with an exact numeric-parity gate against the original, the calculator UI, and live phrase matching against the ~97k-phrase database. **Planned** — power search / reverse lookup, AI "decode" interpretation, shareable result cards, saved workspaces, and a visual-polish pass. See `docs/superpowers/`.
 
 ## Features
@@ -15,13 +13,13 @@ A fast, mobile-first gematria calculator. This is a ground-up **Svelte + Vite + 
 
 ## Tech stack
 
-Svelte 5 + Vite + TypeScript · Vitest (unit + parity) · static build, deployed to Cloudflare Pages.
+Svelte 5 + Vite + TypeScript · Vitest (unit + parity) · static build, deployed to GitHub Pages.
 
 ## Develop
 
 ```bash
-git clone https://github.com/CodePhantom-1/gematro-hyperdope.git
-cd gematro-hyperdope
+git clone https://github.com/CodePhantom-1/Ipor-s-Cypher.News.git
+cd Ipor-s-Cypher.News
 npm install
 npm run dev          # local dev server
 npm test             # unit + parity tests
@@ -34,17 +32,17 @@ Regenerate data when the source changes:
 
 ```bash
 node scripts/extract-ciphers.mjs   # legacy/calc/ciphers.js → src/data/ciphers.ts
-node scripts/build-db.mjs          # legacy/db.txt → public/cyphers-db.txt
+node scripts/build-db.mjs          # db-source.txt + db-corpus.txt → public/cyphers-db.txt.gz
+node scripts/corpus/ingest.mjs     # (re)build db-corpus.txt from public-domain sources
 ```
 
 ## Deploy
 
-Static build to Cloudflare Pages:
-
-```bash
-npm run build
-npx wrangler pages deploy dist --project-name gematro-hyperdope
-```
+Pushing to `overhaul` builds and publishes to GitHub Pages via
+`.github/workflows/deploy.yml`. One-time setup: repo **Settings → Pages →
+Source: GitHub Actions**. The site serves from the project subpath
+(`/<repo>/`); the workflow sets Vite's `base` to match. `npm run build`
+regenerates the gzipped phrase DB via the `prebuild` step.
 
 ## Project layout
 
