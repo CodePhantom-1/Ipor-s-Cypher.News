@@ -24,7 +24,7 @@
   });
   const names = new Map(ciphers.map((c) => [c.id, c.name]));
 </script>
-<section class="matches">
+<section class="matches frame">
   <header>
     <span class="dim">MATCHES</span>
     <select bind:value={cipherId} aria-label="match cipher">
@@ -38,7 +38,12 @@
   </ul>
 </section>
 <style>
-  .matches { margin-top: var(--space-5); border-top: 1px solid var(--line); padding-top: var(--space-3); }
+  .matches {
+    margin-top: var(--space-5);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: var(--space-3);
+  }
   header { display:flex; align-items:center; gap: var(--space-3); }
   .count { font-family: var(--font-display); margin-left:auto; }
   select { background: var(--bg-elevated); color: var(--ink); border:1px solid var(--line);

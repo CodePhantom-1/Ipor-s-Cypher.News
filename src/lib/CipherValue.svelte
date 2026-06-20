@@ -5,7 +5,9 @@
     total,
     hsl,
   }: { id: string; name: string; total: number; hsl: [number, number, number] } = $props();
-  const accent = $derived(`hsl(${hsl[0]} ${hsl[1]}% ${hsl[2]}%)`);
+  const accent = $derived(
+    `color-mix(in oklch, hsl(${hsl[0]} 80% 62%) 35%, var(--signal) 65%)`
+  );
 </script>
 
 <div class="row">
@@ -31,7 +33,7 @@
     font-family: var(--font-display);
     font-size: 1.6rem;
     color: var(--accent);
-    text-shadow: 0 0 8px color-mix(in srgb, var(--accent) 35%, transparent);
+    text-shadow: 0 0 10px color-mix(in srgb, var(--accent) 45%, transparent);
   }
   @media (prefers-reduced-motion: no-preference) {
     .val {

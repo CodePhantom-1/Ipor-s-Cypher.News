@@ -19,7 +19,14 @@
     <PaletteSwitch />
   </header>
 
-  <CalcInput bind:value />
+  <div class="status" aria-hidden="true">
+    <span class="dot"></span>
+    <span class="readout dim">LIVE&nbsp;·&nbsp;91 CIPHERS&nbsp;·&nbsp;97,169 PHRASES</span>
+  </div>
+
+  <div class="frame input-frame">
+    <CalcInput bind:value />
+  </div>
 
   <section class="grid" aria-live="polite">
     {#each calc.results as r (r.id)}
@@ -48,6 +55,38 @@
     justify-content: space-between;
     padding-bottom: var(--space-3);
     border-bottom: 1px solid var(--line);
+  }
+  .status {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding-bottom: var(--space-2);
+    border-bottom: 1px solid var(--line);
+  }
+  .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--signal);
+    box-shadow: 0 0 6px var(--signal-glow);
+    flex: none;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .dot {
+      animation: pulse 2.2s ease-in-out infinite;
+    }
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.35; }
+  }
+  .readout {
+    font-size: 0.68rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+  .input-frame {
+    padding: var(--space-1);
   }
   .grid {
     display: flex;

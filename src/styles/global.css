@@ -1,7 +1,14 @@
 *, *::before, *::after { box-sizing: border-box; }
 html, body { margin: 0; height: 100%; }
 body {
-  background: var(--bg);
+  background:
+    radial-gradient(
+      ellipse 70% 45% at 50% 0%,
+      color-mix(in srgb, var(--signal-glow) 16%, transparent) 0%,
+      transparent 70%
+    ),
+    var(--bg);
+  background-attachment: fixed;
   color: var(--ink);
   font-family: var(--font-mono);
   font-variant-numeric: tabular-nums;
@@ -20,3 +27,33 @@ body::after {
 }
 .signal { color: var(--signal); text-shadow: 0 0 8px var(--signal-glow); }
 .dim { color: var(--ink-dim); }
+
+/* instrument corner-tick frame: small L-shaped ticks at all 4 corners,
+   drawn via two pseudo-elements (each covers a pair of diagonal corners
+   using background-image corner brackets — no extra markup needed). */
+.frame {
+  position: relative;
+}
+.frame::before,
+.frame::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-repeat: no-repeat;
+  background-size: 10px 10px;
+}
+.frame::before {
+  background-image:
+    linear-gradient(to right, var(--signal-dim) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--signal-dim) 1px, transparent 1px);
+  background-position: top left, top left;
+}
+.frame::after {
+  background-image:
+    linear-gradient(to left, var(--signal-dim) 1px, transparent 1px),
+    linear-gradient(to right, var(--signal-dim) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--signal-dim) 1px, transparent 1px),
+    linear-gradient(to top, var(--signal-dim) 1px, transparent 1px);
+  background-position: top right, bottom left, top right, bottom left;
+}
