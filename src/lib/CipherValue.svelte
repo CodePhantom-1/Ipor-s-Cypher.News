@@ -5,9 +5,7 @@
     total,
     hsl,
   }: { id: string; name: string; total: number; hsl: [number, number, number] } = $props();
-  const accent = $derived(
-    `color-mix(in oklch, hsl(${hsl[0]} 80% 62%) 35%, var(--signal) 65%)`
-  );
+  const accent = $derived(`color-mix(in srgb, var(--signal) 70%, hsl(${hsl[0]} 70% 50%) 30%)`);
 </script>
 
 <div class="row">

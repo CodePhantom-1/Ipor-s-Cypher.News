@@ -1,6 +1,7 @@
-import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
+import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'node:fs';
 
-const raw = readFileSync('legacy/db.txt', 'utf8');
+const SRC = existsSync('db-source.txt') ? 'db-source.txt' : 'legacy/db.txt';
+const raw = readFileSync(SRC, 'utf8');
 const seen = new Set();
 const out = [];
 for (const line of raw.split(/\r?\n/)) {
