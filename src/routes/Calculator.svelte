@@ -2,6 +2,7 @@
   import { createCalc } from '../stores/calc.svelte';
   import CalcInput from '../lib/CalcInput.svelte';
   import CipherValue from '../lib/CipherValue.svelte';
+  import Matches from '../lib/Matches.svelte';
   import Wordmark from '../lib/Wordmark.svelte';
   import PaletteSwitch from '../lib/PaletteSwitch.svelte';
 
@@ -28,6 +29,8 @@
       <p class="empty dim">no ciphers enabled — check settings</p>
     {/if}
   </section>
+
+  <Matches input={value} />
 </div>
 
 <style>
