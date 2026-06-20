@@ -1,6 +1,6 @@
 import { findMatches, precompute } from '../engine/match';
 import { ciphers } from '../data/ciphers';
-import { CORPUS_START } from '../data/db-meta';
+import { CORPUS_START, DB_VERSION } from '../data/db-meta';
 
 const byId = new Map(ciphers.map((c) => [c.id, c]));
 let phrases: string[] | null = null;
@@ -10,7 +10,7 @@ async function ensure(): Promise<string[]> {
   // cap). Hosts differ: some serve .gz with Content-Encoding (browser inflates it
   // for us), others serve raw gzip bytes. Detect the gzip magic and inflate only
   // when needed — robust on Cloudflare, GitHub Pages, and the Vite dev server.
-  const r = await fetch(`${import.meta.env.BASE_URL}cyphers-db.txt.gz`); // base-relative for GH Pages subpath
+  const r = await fetch(`${import.meta.env.BASE_URL}cyphers-db.txt.gz?v=${DB_VERSION}`); // base-relative + cache-bust
   const buf = new Uint8Array(await r.arrayBuffer());
   let text: string;
   if (buf[0] === 0x1f && buf[1] === 0x8b) {

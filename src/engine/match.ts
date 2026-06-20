@@ -36,7 +36,9 @@ export function findMatches(
 
   const idx: number[] = [];
   for (let i = 0; i < phrases.length; i++) {
-    if (wisdom && i < corpusStart) continue; // Wisdom Mode: only phrases from the latest ingest
+    // Wisdom Mode partitions the DB: off → original phrases only (index < corpusStart),
+    // on → ingest only (index >= corpusStart). With no corpusStart given, match all.
+    if (wisdom ? i < corpusStart : i >= corpusStart) continue;
     const val = values ? values[i] : calculate(phrases[i], cipher).total;
     if (val !== target) continue;
     if (phrases[i].toLowerCase() === echo) continue;

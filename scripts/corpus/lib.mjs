@@ -99,7 +99,7 @@ function cleanClause(s) {
   for (const w of words) {
     const lw = w.toLowerCase();
     if (w.length === 1) { if (lw !== 'a' && lw !== 'i' && w !== '&') return ''; } // stray single letters
-    else if (!/[aeiouy]/.test(lw)) return '';                   // vowelless OCR blob (Pl, Tk, Apol→ok)
+    else if (!/[aeiouy]/.test(lw) || !/[bcdfghjklmnpqrstvwxz]/.test(lw)) return ''; // need a vowel AND a consonant (kills Pl, Eae, Aao)
   }
   if (words.filter((w) => w.length === 1).length > words.length / 2) return ''; // 1-letter spam
   const letters = words.join('').replace(/[^A-Za-z]/g, '').length;
