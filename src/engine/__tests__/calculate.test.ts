@@ -38,3 +38,9 @@ test('perChar breakdown matches', () => {
   const r = calculate('ab', ordinal());
   expect(r.perChar).toEqual([{ char: 'a', value: 1 }, { char: 'b', value: 2 }]);
 });
+test('digits scored via the cipher when its cArr defines them (legacy guard)', () => {
+  const aq = ciphers.find((c) => c.name === 'Alphanumeric Qabbala')!;
+  expect(aq).toBeTruthy();
+  const expected = aq.vArr[aq.cArr.indexOf(53)]; // 53 = '5'
+  expect(calculate('5', aq).total).toBe(expected); // must NOT be dropped to 0
+});

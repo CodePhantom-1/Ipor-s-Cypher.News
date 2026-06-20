@@ -18,13 +18,19 @@ export function calculate(text: string, cipher: Cipher, opts?: Partial<CalcOptio
   // 3) case fold
   if (!cipher.caseSensitive) s = s.toLowerCase();
 
+  // legacy guard (gematria.js: `if (this.cArr.indexOf(49) == -1)`): digit-mode handling
+  // (numCalcMethod 1/2 and the default ignore) applies ONLY when the cipher's own cArr does
+  // NOT define the digit '1' (char code 49). Ciphers that define digits themselves (e.g.
+  // Alphanumeric Qabbala, Numeric QWERTY) score digit chars through the normal cArr/vArr path.
+  const cipherDefinesDigits = cipher.cArr.indexOf(49) !== -1;
+
   const perChar: PerChar[] = [];
   let total = 0;
   let pos = 0; // 1-based position among matched letters (for multipliers)
   for (let i = 0; i < s.length; i++) {
     const code = s.charCodeAt(i);
-    // digit handling
-    if (code >= 48 && code <= 57) {
+    // digit handling (only when the cipher doesn't itself define digit chars — see guard above)
+    if (code >= 48 && code <= 57 && !cipherDefinesDigits) {
       if (o.numCalcMethod === 2) { const d = code - 48; total += d; perChar.push({ char: s[i], value: d }); }
       else if (o.numCalcMethod === 1) {
         let j = i; let numStr = '';
