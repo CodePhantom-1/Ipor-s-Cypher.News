@@ -1,0 +1,64 @@
+<script lang="ts">
+  import { createCalc } from '../stores/calc.svelte';
+  import CalcInput from '../lib/CalcInput.svelte';
+  import CipherValue from '../lib/CipherValue.svelte';
+  import Wordmark from '../lib/Wordmark.svelte';
+  import PaletteSwitch from '../lib/PaletteSwitch.svelte';
+
+  const calc = createCalc();
+  let value = $state('');
+  $effect(() => {
+    calc.input = value;
+  });
+</script>
+
+<div class="shell">
+  <header>
+    <Wordmark />
+    <PaletteSwitch />
+  </header>
+
+  <CalcInput bind:value />
+
+  <section class="grid" aria-live="polite">
+    {#each calc.results as r (r.id)}
+      <CipherValue id={r.id} name={r.name} total={r.total} hsl={r.hsl} />
+    {/each}
+    {#if calc.results.length === 0}
+      <p class="empty dim">no ciphers enabled — check settings</p>
+    {/if}
+  </section>
+</div>
+
+<style>
+  .shell {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: var(--space-5) var(--space-4) var(--space-6);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+  header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: var(--space-3);
+    border-bottom: 1px solid var(--line);
+  }
+  .grid {
+    display: flex;
+    flex-direction: column;
+  }
+  .empty {
+    font-size: 0.85rem;
+    padding: var(--space-3) 0;
+  }
+  @media (min-width: 720px) {
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      column-gap: var(--space-5);
+    }
+  }
+</style>
