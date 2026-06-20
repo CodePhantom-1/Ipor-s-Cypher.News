@@ -13,7 +13,7 @@
 - Static build only — no server runtime in this plan. (AI Function comes in Plan 4.)
 - Engine modules under `src/engine/` and `src/data/` MUST NOT import any DOM, Svelte, or browser API. Pure TS.
 - **Exact parity:** the new engine matches legacy output bug-for-bug. No cipher "corrections" in this plan.
-- Default calculation options (match legacy globals): `allowPhraseComments=false`, `numCalcMethod=0` (digits ignored), `multCharPos=false`, `multCharPosReverse=false`. Per-cipher flags `diacriticsAsRegular` and `caseSensitive` come from the cipher data.
+- Default calculation options (match legacy SHIPPED globals): `allowPhraseComments=false`, `numCalcMethod=2` (Reduced — legacy `legacy/calc/calc.js:44` ships `optNumCalcMethod=2`; digits ARE counted, each digit reduced, only for ciphers whose `cArr` does not itself define digits), `multCharPos=false`, `multCharPosReverse=false`. Per-cipher flags `diacriticsAsRegular` and `caseSensitive` come from the cipher data. (Corrected from an earlier draft that said `numCalcMethod=0`; the parity gate must run at the real legacy default.)
 - Cipher constructor arg order (from `legacy/calc/ciphers.js`): `(cipherName, cipherCategory, H, S, L, cArr, vArr, diacriticsAsRegular=true, enabled=false, caseSensitive=false)`.
 
 ---
