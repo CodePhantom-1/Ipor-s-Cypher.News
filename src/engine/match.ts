@@ -36,6 +36,7 @@ export function findMatches(
 
   const idx: number[] = [];
   for (let i = 0; i < phrases.length; i++) {
+    if (wisdom && i < corpusStart) continue; // Wisdom Mode: only phrases from the latest ingest
     const val = values ? values[i] : calculate(phrases[i], cipher).total;
     if (val !== target) continue;
     if (phrases[i].toLowerCase() === echo) continue;
@@ -44,11 +45,10 @@ export function findMatches(
   const count = idx.length;
 
   // Rank, then take the top `limit`. Precedence (each tier breaks ties of the prior):
-  //   Wisdom (if on): ingested corpus first → exact letter-count → word-length
-  //   proximity → notable/name-like → letter-count proximity → alphabetical.
+  //   exact letter-count → word-length proximity → notable/name-like →
+  //   letter-count proximity → alphabetical.
   idx.sort((a, b) => {
     const pa = phrases[a], pb = phrases[b];
-    if (wisdom) { const ca = a >= corpusStart, cb = b >= corpusStart; if (ca !== cb) return ca ? -1 : 1; }
     const la = letters(pa), lb = letters(pb);
     const ea = la === inL ? 0 : 1, eb = lb === inL ? 0 : 1; if (ea !== eb) return ea - eb;
     const wa = wordsOf(pa), wb = wordsOf(pb);

@@ -38,7 +38,7 @@
     </select>
     <button class="wisdom" class:on={$wisdom} aria-pressed={$wisdom}
       onclick={() => wisdom.set(!$wisdom)}
-      title="Wisdom Mode — surface the ingested scripture & esoteric corpus first">✦ wisdom</button>
+      title="Wisdom Mode — match ONLY the ingested scripture & esoteric corpus (hide the original DB)">✦ wisdom</button>
     <span class="count signal" data-testid="match-count">{total}</span>
   </header>
   {#if loading}<p class="dim">scanning…</p>{/if}

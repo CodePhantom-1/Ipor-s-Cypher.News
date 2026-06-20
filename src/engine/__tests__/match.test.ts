@@ -33,13 +33,15 @@ test('precomputed values give identical results to recomputing', () => {
   expect(b).toEqual(a);
 });
 
-test('ranking: exact letter-count first; Wisdom Mode floats corpus phrases up', () => {
+test('ranking: exact letter-count first; Wisdom Mode shows ONLY ingest phrases', () => {
   const c = ordinal();
   // 'ab' (a+b=3) and 'c' (3) both match input 'ba' (3); 'ba' isn't an echo of either
   const phrases = ['ab', 'c'];
-  // default: 'ab' wins — its letter count (2) equals the input's, 'c' (1) doesn't
+  // default: both match, 'ab' wins — its letter count (2) equals the input's, 'c' (1) doesn't
+  expect(findMatches(phrases, 'ba', c).total).toBe(2);
   expect(findMatches(phrases, 'ba', c).phrases[0]).toBe('ab');
-  // Wisdom Mode: 'c' is in the ingest range (index >= corpusStart 1) → it floats first
+  // Wisdom Mode: corpusStart 1 → only index >= 1 ('c') is eligible; 'ab' is excluded entirely
   const wis = findMatches(phrases, 'ba', c, 300, undefined, { wisdom: true, corpusStart: 1 });
-  expect(wis.phrases[0]).toBe('c');
+  expect(wis.phrases).toEqual(['c']);
+  expect(wis.total).toBe(1);
 });
