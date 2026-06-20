@@ -1,6 +1,6 @@
 // @vitest-environment node
 import { test, expect } from 'vitest';
-import { findMatches } from '../match';
+import { findMatches, precompute } from '../match';
 import { calculate } from '../calculate';
 import { ciphers } from '../../data/ciphers';
 
@@ -22,4 +22,24 @@ test('finds phrases sharing the input value, excludes echo, counts all, caps lis
 
 test('empty input yields no matches', () => {
   expect(findMatches(['a','b'], '', ordinal()).total).toBe(0);
+});
+
+test('precomputed values give identical results to recomputing', () => {
+  const c = ordinal();
+  const phrases = ['hello', 'HELLO', 'world', 'zzz', ...Array.from({ length: 200 }, (_, i) => `pad${i}`)];
+  const values = precompute(phrases, c);
+  const a = findMatches(phrases, 'hello', c, 300);
+  const b = findMatches(phrases, 'hello', c, 300, values);
+  expect(b).toEqual(a);
+});
+
+test('ranking: exact letter-count first; Wisdom Mode floats corpus phrases up', () => {
+  const c = ordinal();
+  // 'ab' (a+b=3) and 'c' (3) both match input 'ba' (3); 'ba' isn't an echo of either
+  const phrases = ['ab', 'c'];
+  // default: 'ab' wins — its letter count (2) equals the input's, 'c' (1) doesn't
+  expect(findMatches(phrases, 'ba', c).phrases[0]).toBe('ab');
+  // Wisdom Mode: 'c' is in the ingest range (index >= corpusStart 1) → it floats first
+  const wis = findMatches(phrases, 'ba', c, 300, undefined, { wisdom: true, corpusStart: 1 });
+  expect(wis.phrases[0]).toBe('c');
 });

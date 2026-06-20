@@ -13,3 +13,4 @@ export type Palette = 'green' | 'amber' | 'cyan';
 export const DEFAULT_ENABLED = ciphers.filter((c) => c.enabled).map((c) => c.id);
 export const palette = persisted<Palette>('cyphers.palette', 'green');
 export const enabledCipherIds = persisted<string[]>('cyphers.enabled', DEFAULT_ENABLED);
+export const wisdom = persisted<boolean>('cyphers.wisdom', false);

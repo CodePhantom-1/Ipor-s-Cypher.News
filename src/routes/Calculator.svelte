@@ -5,13 +5,20 @@
   import Matches from '../lib/Matches.svelte';
   import Wordmark from '../lib/Wordmark.svelte';
   import PaletteSwitch from '../lib/PaletteSwitch.svelte';
+  import DigitRain from '../lib/DigitRain.svelte';
+  import { PHRASE_COUNT } from '../data/db-meta';
 
   const calc = createCalc();
   let value = $state('');
   $effect(() => {
     calc.input = value;
   });
+  // live on-screen values the background should fixate on
+  const fixate = $derived(calc.results.map((r) => r.total));
 </script>
+
+<DigitRain {fixate} />
+<div class="grain" aria-hidden="true"></div>
 
 <div class="shell">
   <header>
@@ -21,7 +28,7 @@
 
   <div class="status" aria-hidden="true">
     <span class="dot"></span>
-    <span class="readout dim">LIVE&nbsp;·&nbsp;91 CIPHERS&nbsp;·&nbsp;229,943 PHRASES</span>
+    <span class="readout dim">LIVE&nbsp;·&nbsp;91 CIPHERS&nbsp;·&nbsp;{PHRASE_COUNT.toLocaleString()} PHRASES</span>
   </div>
 
   <div class="frame input-frame">

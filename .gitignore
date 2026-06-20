@@ -12,6 +12,10 @@ dist
 dist-ssr
 *.local
 
+# corpus ingest fetch cache (regenerable, large) and the uncompressed DB
+.cache
+public/cyphers-db.txt
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
