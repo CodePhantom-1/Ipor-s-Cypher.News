@@ -1,3 +1,4 @@
+// @vitest-environment node
 import { test, expect } from 'vitest';
 import { calculate } from '../calculate';
 import { ciphers } from '../../data/ciphers';
