@@ -1,99 +1,74 @@
-## Cyphers
-![Cyphers News](res/preview.png)
----
-> NOTE: Use a desktop Chromium based browser for best experience
+# Cyphers — Gematria Calculator
 
+A fast, mobile-first gematria calculator. This is a ground-up **Svelte + Vite + TypeScript** rewrite of the Cyphers / Gematro / Hyperdope tool, with a "Phosphor Decoder" terminal interface.
 
-## About The Project
+**Live:** https://gematro-hyperdope.pages.dev
 
-Decode your reality.  Discover hidden synchronicities and encode your own!
+> Status: active overhaul. **Done** — gematria engine (91 ciphers) with an exact numeric-parity gate against the original, the calculator UI, and live phrase matching against the ~97k-phrase database. **Planned** — power search / reverse lookup, AI "decode" interpretation, shareable result cards, saved workspaces, and a visual-polish pass. See `docs/superpowers/`.
 
-Try it live at https://cyphers.news/
+## Features
 
-The Cyphers, Gematro, Hyperdope Gematria project values these principles:
+- **91 ciphers** extracted from the original as typed data, computed by a pure, framework-agnostic engine.
+- **Exact parity** with the legacy calculator — a test harness diffs every cipher × thousands of real words (0 mismatches), so a fresh codebase never silently changes a value.
+- **Live phrase matching** — type a phrase and instantly see other phrases from a ~97k-entry database that share its value, computed off the main thread in a Web Worker so typing never janks.
+- **3 terminal palettes** (green / amber / cyan), mobile-first, works fully static and offline.
 
-<ul>
-<li>Accessible and relevant word and phrase matching</li>
-<li>Favor inclusion of well-defined cyphers useful to the community</li>
-<li>Free and open source</li>
-</ul>
+## Tech stack
 
-### Features:
-<ul>
-<li>AUTOLOADING word database for instant phrase matching</li>
-<li>Themes! Set your favorite of 10 calculator skins to load by default</li>
-<li>Virtual Keyboard</li>
-<li>Configurable image scaling</li>
-<li>History table editing</li>
-<li>Dynamic highlighter with filtering</li>
-<li>Support for characters with diacritical marks</li>
-<li>History export/import (CSV format)</li>
-<li>Fully customizable cyphers (Unicode)</li>
-<li>Color controls</li>
-<li>Screenshot tools</li>
-<li>Quickstart guide</li>
-</ul>
+Svelte 5 + Vite + TypeScript · Vitest (unit + parity) · static build, deployed to Cloudflare Pages.
 
+## Develop
 
-## Getting Started
+```bash
+git clone https://github.com/CodePhantom-1/gematro-hyperdope.git
+cd gematro-hyperdope
+npm install
+npm run dev          # local dev server
+npm test             # unit + parity tests
+npm run check        # svelte-check + tsc
+npm run build        # production build → dist/
+npm run preview      # serve the production build locally
+```
 
-To learn more about how to use Cyphers see the Quickstart Guide in the app under the About menu.
+Regenerate data when the source changes:
 
-This repo may be cloned as-is to your **web server** for self-hosting your own fully-featured gematria calulator with integrated database matching.
+```bash
+node scripts/extract-ciphers.mjs   # legacy/calc/ciphers.js → src/data/ciphers.ts
+node scripts/build-db.mjs          # legacy/db.txt → public/cyphers-db.txt
+```
 
-To add more words or phrases to the matching database append them as new lines to the db.txt.  To autoload a different properly formatted .txt file you can change the reference in the AUTO LOAD DATABASE (DB) section at the bottom of index.html.
+## Deploy
 
-> NOTE: You must run this app from a web server for the word matching database to autoload due to the way browsers handle local file security.  Please see [this CORS error article](https://stackoverflow.com/questions/58879729/access-to-xmlhttprequest-at-file-sample-txt-from-origin-null-blocked-by-c) for more information.  A quick way to run db matching offline locally is to open the project folder in VS Code and launch it with the Live Server extension.  
+Static build to Cloudflare Pages:
 
-If you do not need the auto loading db feature simply download the repo and open index.html.
+```bash
+npm run build
+npx wrangler pages deploy dist --project-name gematro-hyperdope
+```
 
-If you are not interested in using this tool offline or self-hosting and just want to use the tool with the full word matching experience, navigate the project's [official hosted version](http://www.hyperdope.com/gematria).
+## Project layout
 
-### Changing the Theme
+| Path | What |
+|---|---|
+| `src/engine/` | Pure gematria engine: cipher calculation, matching, parity tests. No DOM. |
+| `src/data/` | `ciphers.ts` — the 91 cipher definitions as typed data (generated). |
+| `src/stores/` | Reactive state: settings (palette, enabled ciphers), calculator, matches. |
+| `src/lib/`, `src/routes/` | UI components + the calculator screen. |
+| `src/worker/` | Web Worker that scans the phrase database off the main thread. |
+| `public/cyphers-db.txt` | The phrase database (generated static asset, fetched at runtime). |
+| `legacy/` | The original vanilla-JS app, preserved verbatim as the parity reference. |
+| `docs/superpowers/` | Design spec + per-plan implementation plans. |
 
-There are 10 themes packaged with Hyperdope Gematria: black, blue, green, green alt, red charcoal, teal, white, and old book (normal, bright, and dim).
-
-To enable a theme, uncomment the 'AUTO LOAD THEME' script at the bottom of index.html and change the reference to any of the files in the /theme folder.
-
-
-## Contributing
-
-Any contributions you make are **greatly appreciated**.  Please report any issues or bugs.  Errors in the cyphers will be fixed with highest priority.
-
-If you have a suggestion that would improve the tool, please fork the repo and create a pull request. You can also simply open an issue with the tag "enhancement".
-
-1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the Branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
- 
-<!-- LICENSE -->
 ## License
 
-Distributed under the GNU General Public License v2.0. See `LICENSE` for more information.
+Distributed under the GNU General Public License v2.0. See `LICENSE`.
 
-
-<!-- CONTACT -->
-## Contact
-
-Cyphers News - [@CyphersNews on X](https://x.com/CyphersNews) -
-cypherstvuk@gmail.com
-
-Cyphers Project Link: [Cyphers News](https://github.com/CyphersNews/gematro-hyperdope)
-
-Gematro Project Link: [Gematro](https://github.com/gematro)
-
-Hyperdope Official - [@LNHyper on X](https://twitter.com/lnhyper) - hyperdopeofficial@protonmail.com
-
-Hyperdope Project Link: [Hyperdope Gematria](https://github.com/malonehunter/hyperdope-gematria)
-
-
-<!-- ACKNOWLEDGMENTS -->
 ## Acknowledgments
 
-* Special thanks to @Saun-Virroco, the creator of Gematro, who's first name is Mikhail, on which this calculator is entirely based albeit our alterations.  
-* [NetVoid, who preserved the Gematro repo and secured the database](https://github.com/CyphersNews/cyphersnews.github.io)
-* [Alektryon, who contributed many cyphers, configurations, and reviews.](https://github.com/Alektryon)
-* [Hyperdope, who made the live database an option again after Gematro took his version of that code offline. Furthermore, thank you for starting the project of narrowing down our database.](https://github.com/malonehunter/hyperdope-gematria)
+Built on the lineage of the original project:
+
+- **[Gematro](https://github.com/gematro)** by Saun-Virroco (Mikhail) — the calculator this is based on.
+- **[NetVoid](https://github.com/CyphersNews/cyphersnews.github.io)** — preserved the Gematro repo and secured the database.
+- **[Alektryon](https://github.com/Alektryon)** — many ciphers, configurations, and reviews.
+- **[Hyperdope](https://github.com/malonehunter/hyperdope-gematria)** — restored the live-database option and began narrowing the database.
+- Upstream this fork tracks: **[CyphersNews/gematro-hyperdope](https://github.com/CyphersNews/gematro-hyperdope)**.
