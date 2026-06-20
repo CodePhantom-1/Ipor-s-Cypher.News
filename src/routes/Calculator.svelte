@@ -21,7 +21,7 @@
 
   <div class="status" aria-hidden="true">
     <span class="dot"></span>
-    <span class="readout dim">LIVE&nbsp;·&nbsp;91 CIPHERS&nbsp;·&nbsp;97,169 PHRASES</span>
+    <span class="readout dim">LIVE&nbsp;·&nbsp;91 CIPHERS&nbsp;·&nbsp;229,943 PHRASES</span>
   </div>
 
   <div class="frame input-frame">
