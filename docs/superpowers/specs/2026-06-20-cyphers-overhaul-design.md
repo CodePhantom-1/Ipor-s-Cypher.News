@@ -35,6 +35,7 @@ testable in isolation. No file should grow into a new monolith.
 - **Port every cipher as typed data**, not code: `{ id, name, kind, map: Record<string, number>, options }`. Source of truth extracted from the legacy `calc/ciphers.js`.
 - **Pure functions:** `calculate(text, cipher) → { total, perChar: {char, value}[] }`, plus encoding, date-calc, breakdown, number-properties — all pure, no DOM.
 - **Parity gate (blocks the rewrite from shipping):** a Vitest harness runs a large corpus (a sample of `db.txt` + edge cases: diacritics, Unicode, mixed case, spaces, digits) through **both** the legacy engine and the new engine and asserts identical totals for **every** cipher. 100% parity required before the new engine replaces anything.
+- **Exact parity (decided):** the new engine matches legacy output bug-for-bug — no "corrections" during the rewrite. Any genuine cipher errors are fixed afterward as separate, individually-reviewed changes with their own parity-diff record, so corrections are deliberate and auditable rather than silent.
 
 ## 4. Database & search
 
